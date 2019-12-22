@@ -4,47 +4,58 @@
 // Richard Shepherd
 // December 2019
 //
+
 import 'package:encrypt/encrypt.dart';
 import 'package:args/args.dart';
 
-// final plainText = 'bob';
-// bool encrypt = true; // false means decrypt
 final encryptKey = 'encrypt';
 final decryptKey = 'decrypt';
+final keyKey = 'key';
+//
 final usage = '''
-Usage: dart simple_cryption [ -e | -d ] <string> ...
+Usage: dart simple_cryption [ -e | -d ] [ -k <key> ] <string> ...
 ''';
+// final cipherSize = 128;
 
 void main(List<String> arguments) {
   final parser = ArgParser()
     ..addFlag(encryptKey, negatable: false, abbr: 'e', defaultsTo: true, help: 'encrypt strings')
-    ..addFlag(decryptKey, negatable: false, abbr: 'd', defaultsTo: false, help: 'decrypt strings');
+    ..addFlag(decryptKey, negatable: false, abbr: 'd', defaultsTo: false, help: 'decrypt strings')
+    ..addOption(keyKey, abbr: 'k', help: 'use a non-default key');
   final argResults = parser.parse(arguments);
   //
-  if (argResults.rest.isEmpty) {
+  if (argResults.rest.isEmpty || (argResults[decryptKey] && argResults.wasParsed(encryptKey))) {
     print(usage + parser.usage);
     return;
   }
   //
-  // the actual string we're asking to encrypt/decrypt
-  final source = argResults.rest.first;
+  // the actual string(s) we're asking to encrypt/decrypt
+  final sourceStrings = argResults.rest;
 
   // boiler-plate code for both encrypt/decrypt
-  //  alter these for more variation in your encryptions
-  //  and of course be sure to use the same values when decrypting to actually get
-  //  your orignal plain-text values back ;-)
-  final key = Key.fromLength(32);
+  //  use '-k <key>' on the cmd-line for more variation in your encryptions
+  //  and be sure to use the same key when decrypting to get your original
+  //  plain-text value(s) back ;-)
+
+  String rawKey = argResults[keyKey] as String ?? '';
+  if (rawKey.length < 32) rawKey = rawKey.padRight(32);
+  if (rawKey.length > 32) rawKey = rawKey.substring(0, 32);
+
+  final key = Key.fromUtf8(rawKey);
   final iv = IV.fromLength(16);
   final encrypter = Encrypter(AES(key));
   //
   if (argResults[decryptKey]) {
-    //
     // Decryption
-    final decrypted = encrypter.decrypt16(source, iv: iv);
-    print('decrypted: $decrypted');
+    sourceStrings.forEach((source) {
+      final decrypted = encrypter.decrypt64(source, iv: iv);
+      print('decrypt: $source --> $decrypted');
+    });
     return;
   }
   // Encryption
-  final encrypted = encrypter.encrypt(source, iv: iv);
-  print('encrypted: ${encrypted.base16}');
+  sourceStrings.forEach((source) {
+    final encrypted = encrypter.encrypt(source, iv: iv);
+    print('encrypt: $source --> ${encrypted.base64}');
+  });
 }
