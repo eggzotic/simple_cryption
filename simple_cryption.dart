@@ -1,4 +1,6 @@
 //
+// simple_cryption - 2-way encryption/decryption
+//
 // Richard Shepherd
 // December 2019
 //
@@ -29,6 +31,8 @@ void main(List<String> arguments) {
 
   // boiler-plate code for both encrypt/decrypt
   //  alter these for more variation in your encryptions
+  //  and of course be sure to use the same values when decrypting to actually get
+  //  your orignal plain-text values back ;-)
   final key = Key.fromLength(32);
   final iv = IV.fromLength(16);
   final encrypter = Encrypter(AES(key));
