@@ -6,7 +6,7 @@ A simple 2-way encryption/decryption cmd-line tool written in Dart.
 
 Ensure you have the dart cmd-line tool installed as per https://dart.dev/get-dart
 
-pub get
+pub get <-- once only
 
 dart simple_cryption.dart
 
