@@ -8,7 +8,13 @@ Ensure you have the dart cmd-line tool installed as per https://dart.dev/get-dar
 
 pub get <-- once only
 
-For usage, run: dart simple_cryption.dart
+```Usage: dart simple_cryption [ -e | -d ] [ -k <key> ] <string> ...
+-e, --encrypt    encrypt strings
+                 (defaults to on)
+
+-d, --decrypt    decrypt strings
+-k, --key        use a non-default key
+```
 
 Richard Shepherd  
 December 2019
