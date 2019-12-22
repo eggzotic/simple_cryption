@@ -6,9 +6,10 @@ A simple 2-way encryption/decryption cmd-line tool written in Dart.
 
 Ensure you have the dart cmd-line tool installed as per https://dart.dev/get-dart
 
+```
 pub get <-- once only
 
-```Usage: dart simple_cryption [ -e | -d ] [ -k <key> ] <string> ...
+Usage: dart simple_cryption [ -e | -d ] [ -k <key> ] <string> ...
 -e, --encrypt    encrypt strings
                  (defaults to on)
 
