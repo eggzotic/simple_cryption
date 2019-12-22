@@ -8,7 +8,7 @@ Ensure you have the dart cmd-line tool installed as per https://dart.dev/get-dar
 
 pub get <-- once only
 
-dart simple_cryption.dart
+For usage, run: dart simple_cryption.dart
 
 Richard Shepherd  
 December 2019
