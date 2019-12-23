@@ -14,7 +14,7 @@ final keyKey = 'key';
 final keyLength = 32;
 //
 final usage = '''
-Usage: dart simple_cryption [ -e | -d ] [ -k <key> ] <string> ...
+Usage: dart simple_cryption.dart [ -e | -d ] [ -k <key> ] <string> ...
 ''';
 
 void main(List<String> arguments) {
