@@ -11,17 +11,17 @@ import 'package:args/args.dart';
 final encryptKey = 'encrypt';
 final decryptKey = 'decrypt';
 final keyKey = 'key';
+final keyLength = 32;
 //
 final usage = '''
 Usage: dart simple_cryption [ -e | -d ] [ -k <key> ] <string> ...
 ''';
-// final cipherSize = 128;
 
 void main(List<String> arguments) {
   final parser = ArgParser()
     ..addFlag(encryptKey, negatable: false, abbr: 'e', defaultsTo: true, help: 'encrypt strings')
     ..addFlag(decryptKey, negatable: false, abbr: 'd', defaultsTo: false, help: 'decrypt strings')
-    ..addOption(keyKey, abbr: 'k', help: 'use a non-default key');
+    ..addOption(keyKey, abbr: 'k', help: 'use a non-default key (max $keyLength chars)');
   final argResults = parser.parse(arguments);
   //
   if (argResults.rest.isEmpty || (argResults[decryptKey] && argResults.wasParsed(encryptKey))) {
@@ -37,9 +37,10 @@ void main(List<String> arguments) {
   //  and be sure to use the same key when decrypting to get your original
   //  plain-text value(s) back ;-)
 
-  String rawKey = argResults[keyKey] as String ?? '';
-  if (rawKey.length < 32) rawKey = rawKey.padRight(32);
-  if (rawKey.length > 32) rawKey = rawKey.substring(0, 32);
+  // ensure the key-length is keyLength
+  String rawKey = (argResults[keyKey] as String) ?? Key.fromLength(keyLength).base16;
+  if (rawKey.length < keyLength) rawKey = rawKey.padRight(keyLength);
+  if (rawKey.length > keyLength) rawKey = rawKey.substring(0, keyLength);
 
   final key = Key.fromUtf8(rawKey);
   final iv = IV.fromLength(16);
