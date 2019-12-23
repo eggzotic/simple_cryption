@@ -20,7 +20,7 @@ Usage: dart simple_cryption [ -e | -d ] [ -k <key> ] <string> ...
                  (defaults to on)
 
 -d, --decrypt    decrypt strings
--k, --key        use a non-default key
+-k, --key        use a non-default key (max 32 chars)
 ```
 
 Richard Shepherd  
