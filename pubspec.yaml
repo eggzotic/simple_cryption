@@ -2,8 +2,8 @@ name: simple_cryption
 description: Simple 2-way encryption cmd-line app
 
 environment:
-  sdk: '>=2.6.0 <3.0.0'
+  sdk: ">=2.18.0 <4.0.0"
 
 dependencies:
-  encrypt: ^3.3.1
-  args: ^1.5.0
+  encrypt: ^5.0.3
+  args: ^2.5.0
